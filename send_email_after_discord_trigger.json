@@ -1,0 +1,282 @@
+{
+  "name": "send email after discord trigger",
+  "nodes": [
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Answer",
+        "emailType": "text",
+        "message": "={{ $json.Answer }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        940,
+        200
+      ],
+      "id": "95739009-fb2a-440b-9168-2f604f043d31",
+      "name": "Gmail",
+      "webhookId": "22c679fb-3388-462f-ac9a-8ef840030d41",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GSejW1YnaQgZvnBF",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "databaseId": 182662,
+        "tableId": 446451,
+        "limit": 1,
+        "additionalOptions": {
+          "order": {
+            "fields": [
+              {
+                "field": 3466844,
+                "direction": "-"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        660,
+        200
+      ],
+      "id": "54dccb73-62ad-4925-aa7c-6d6b30b96e28",
+      "name": "Baserow2",
+      "credentials": {
+        "baserowApi": {
+          "id": "0RKenlfmbEtT5VLC",
+          "name": "Baserow account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-bit-discord.bitDiscordTrigger",
+      "typeVersion": 1,
+      "position": [
+        80,
+        180
+      ],
+      "id": "dbba9252-e761-487d-8d7a-2c5c7280971d",
+      "name": "Bit Discord Trigger",
+      "credentials": {
+        "discordBotTriggerApi": {
+          "id": "WbdR8GXqO41q5JaZ",
+          "name": "Discord Bot Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.content }}",
+                    "rightValue": "send",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "00b901e3-4777-4a5a-9c2e-eccf518457e5",
+                    "leftValue": "={{ $json.content }}",
+                    "rightValue": "yes",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6901ca7c-bf6f-4b1d-8015-e1a0e9a5e3f7",
+                    "leftValue": "={{ $json.content }}",
+                    "rightValue": "Yes",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "19a6878c-8ab1-4096-88d3-b9e71ff3eb07",
+                    "leftValue": "={{ $json.content }}",
+                    "rightValue": "ja",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e6068254-6c78-47ac-9fb1-dae62585bb26",
+                    "leftValue": "={{ $json.content }}",
+                    "rightValue": "Ja",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        320,
+        160
+      ],
+      "id": "9d5784d6-9283-4759-b7ab-a363fa16c186",
+      "name": "Switch"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Baserow2": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bit Discord Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Baserow2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Baserow2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Baserow2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Baserow2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Baserow2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "aab447e8-7186-4820-a7b0-d28459c19ddd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ec27762125bf658dee47563359483f7f9fa28b70cfca2f5c6fa1ce96baf3c05a"
+  },
+  "id": "LHswbxfZyEyeS70r",
+  "tags": []
+}
