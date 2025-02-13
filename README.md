@@ -46,3 +46,12 @@ Detects specific messages in a Discord server.
 
 Activates workflow based on predefined keywords (e.g., "send", "yes", "ja").
 
+# 8. Deployment
+
+Import this workflow into n8n.
+
+Configure required credentials (Gmail, Discord, Google Gemini, Baserow).
+
+Activate the workflow to enable automation.
+
+Test by sending an email or triggering a message in Discord
